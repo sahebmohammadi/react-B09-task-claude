@@ -1,0 +1,12 @@
+{
+  "window.zoomLevel": 1.5,
+  "editor.fontSize": 14,
+  "editor.lineHeight": 1.6,
+  "editor.fontFamily": "'JetBrains Mono', 'SF Mono', Menlo, monospace",
+  "editor.fontWeight": "300",
+  "terminal.integrated.fontSize": 14,
+  "editor.cursorBlinking": "solid",
+  "editor.minimap.enabled": false,
+  "editor.renderWhitespace": "none",
+  "editor.stickyScroll.enabled": true
+}
