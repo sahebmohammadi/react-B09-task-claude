@@ -1,0 +1,15 @@
+/** Every API error code with the HTTP status it is sent with. */
+export const ERROR_STATUS = {
+  VALIDATION_ERROR: 400,
+  UNAUTHENTICATED: 401,
+  FORBIDDEN: 403,
+  ACCOUNT_NOT_APPROVED: 403,
+  NOT_FOUND: 404,
+  CONFLICT: 409,
+  INVALID_STATUS_TRANSITION: 409,
+  DUPLICATE_PROPOSAL: 409,
+  RATE_LIMITED: 429,
+  INTERNAL_ERROR: 500,
+} as const;
+
+export type ErrorCode = keyof typeof ERROR_STATUS;
