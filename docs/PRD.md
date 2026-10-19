@@ -55,7 +55,7 @@ Payments, chat/messaging, file uploads, email sending or verification, in-app no
 ```
 freelancehub/
   apps/
-    api/
+    server/
       src/
         config/          env.ts (Zod-validated env), db.ts
         modules/
@@ -72,7 +72,7 @@ freelancehub/
         app.ts           express app (no listen; used by tests)
         server.ts        connect DB, start bot, listen
       tests/
-    web/
+    client/
       src/
         components/ui/   shadcn components
         components/      shared pieces (PageHeader, EmptyState, ErrorState, Can)
@@ -170,7 +170,7 @@ Authorization is **permission-based**, not role-based in code. Routes and UI ask
 2. `requireApproved` — `status !== approved` → `403 ACCOUNT_NOT_APPROVED`.
 3. `requirePermission(...permissions)` — passes if the user's role has **any** of the listed permissions, otherwise `403 FORBIDDEN`. Every protected route declares its permissions explicitly in the route file.
 
-**Ownership policies** — permissions with `:own`, `:assigned`, or `:project` scope also need a resource check. These live in `apps/api/src/rbac/policies.ts` as pure functions, e.g.:
+**Ownership policies** — permissions with `:own`, `:assigned`, or `:project` scope also need a resource check. These live in `apps/server/src/rbac/policies.ts` as pure functions, e.g.:
 
 - `canUpdateProject(user, project)` → has `project:update:any`, or has `project:update:own` and `project.owner === user.id` (and status rules from section 4 table).
 - `canChangeProjectStatus(user, project, nextStatus)` → combines the scoped permission with the transition map (section 7).
@@ -521,7 +521,7 @@ Use `@faker-js/faker` with a fixed seed for names, plus a hand-written list of p
 
 ## 12. Environment Variables
 
-`apps/api/.env.example`
+`apps/server/.env.example`
 
 ```
 NODE_ENV=development
@@ -541,7 +541,7 @@ TELEGRAM_PROXY_URL=
 ADMIN_TELEGRAM_ID=
 ```
 
-`apps/web/.env.example`
+`apps/client/.env.example`
 
 ```
 VITE_API_URL=/api
@@ -572,7 +572,7 @@ Create a bot with @BotFather, put the token and username in `.env`, and set your
   - Status transitions: every allowed transition succeeds, a sample of disallowed ones → 409.
   - Proposals: duplicate → 409, accept transaction (others rejected, project updated), double accept guarded.
   - Auth: OTP attempts lock, expired OTP, refresh rotation, refresh reuse revokes family, logout.
-- Scripts: `pnpm test` (all), `pnpm --filter api test:watch`.
+- Scripts: `pnpm test` (all), `pnpm --filter server test:watch`.
 
 ---
 

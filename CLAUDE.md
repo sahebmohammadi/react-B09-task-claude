@@ -5,7 +5,7 @@ FreelanceHub: an **internal company dashboard** (fullstack TypeScript monorepo) 
 This is course content for a Claude Code course: code must be clean, consistent, and easy for students to read.
 
 ## Stack
-- pnpm workspaces: `apps/api`, `apps/web`, `packages/shared` (imported as `@freelancehub/shared`)
+- pnpm workspaces: `apps/server`, `apps/client`, `packages/shared` (imported as `@freelancehub/shared`)
 - API: Node 22, Express 5, Mongoose 8, Zod, grammY (Telegram bot), jsonwebtoken, pino
 - Web: Vite, React 19, React Router ≥ 7.9 (data mode + route middleware), shadcn Sidebar for the shell, TanStack Query v5, axios, React Hook Form, Tailwind CSS v4, shadcn/ui
 - DB: local MongoDB as single-node replica set `rs0` (transactions are used)
@@ -14,10 +14,10 @@ This is course content for a Claude Code course: code must be clean, consistent,
 ## Commands
 - `pnpm install` — install all workspaces
 - `pnpm dev` — run api (4000) and web (5173) in parallel
-- `pnpm --filter api dev` / `pnpm --filter web dev` — run one app
+- `pnpm --filter server dev` / `pnpm --filter client dev` — run one app
 - `pnpm seed` — reset and seed the database
 - `pnpm lint` / `pnpm format` / `pnpm typecheck` / `pnpm test`
-- `pnpm dlx shadcn@latest add <component>` — run inside `apps/web`
+- `pnpm dlx shadcn@latest add <component>` — run inside `apps/client`
 
 ## Architecture rules
 - Shared first: enums, Zod schemas, the project status transition map, and API response types live in `packages/shared`. Never duplicate them in an app.
@@ -25,7 +25,7 @@ This is course content for a Claude Code course: code must be clean, consistent,
 - Every route validates body/params/query with a shared Zod schema via `validate()`. Use the parsed output, never raw `req.body`.
 - Response envelope: `{ data, meta? }` for success, `{ error: { code, message, details? } }` for errors. Throw `AppError` with a code; the central error handler formats it.
 - Authorization is permission-based RBAC. The permission list, `ROLE_PERMISSIONS`, and `hasPermission()` live in `packages/shared/src/rbac`. Never check role names (`role === 'admin'`) in routes, services, or UI; check permissions.
-- Server (the real security boundary): every protected route uses `authenticate → requireApproved → requirePermission(...) → validate(...)`. Scoped permissions (`:own`, `:assigned`, `:project`) are completed by pure policy functions in `apps/api/src/rbac/policies.ts`, called from services. Never trust role or ownership info from the client.
+- Server (the real security boundary): every protected route uses `authenticate → requireApproved → requirePermission(...) → validate(...)`. Scoped permissions (`:own`, `:assigned`, `:project`) are completed by pure policy functions in `apps/server/src/rbac/policies.ts`, called from services. Never trust role or ownership info from the client.
 - Client (UX only): guards are React Router route **middleware** in `src/router/middleware.ts` (`authMiddleware`, `approvedMiddleware`, `requirePermission(...)`, `guestMiddleware`, `statusPageMiddleware`), declared on parent routes and inherited by children. No guard wrapper components. Middleware puts the user in `userContext`; loaders read it with `context.get(userContext)` and prefetch with `queryClient.ensureQueryData`.
 - UI actions are shown with `useCan` / `<Can>` or the `allowedActions` returned by the API. Sidebar items are filtered by permission from `src/router/nav.ts`.
 - 403 and 404 render inside the dashboard shell via the route ErrorBoundary.

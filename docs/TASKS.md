@@ -37,41 +37,41 @@ Shared (gate)  ──►  API track  ─┐
 
 ### 0.1 Workspace (sequential, blocks everything)
 
-- [ ] `pnpm-workspace.yaml`, root `package.json` with `dev`, `seed`, `lint`, `format`, `typecheck`, `test` scripts (§3)
-- [ ] `tsconfig.base.json` (strict), ESLint flat config with typescript-eslint, `.prettierrc` (§2)
-- [ ] `.gitignore` that ignores `.env` files (§11)
+- [x] `pnpm-workspace.yaml`, root `package.json` with `dev`, `seed`, `lint`, `format`, `typecheck`, `test` scripts (§3)
+- [x] `tsconfig.base.json` (strict), ESLint flat config with typescript-eslint, `.prettierrc` (§2)
+- [x] `.gitignore` that ignores `.env` files (§11)
 
 ### 0.2 Shared (gate)
 
-- [ ] `packages/shared` package wired as `@freelancehub/shared` (§3)
-- [ ] `constants/`: roles, user statuses, project statuses, categories, types, proposal statuses (§4, §6)
-- [ ] `constants/project-status.ts`: the status transition map, including "system only" and per-actor transitions (§7)
-- [ ] `rbac/`: `Permission` string-literal union, `ROLE_PERMISSIONS`, `hasPermission(role, permission)` (§4 RBAC)
-- [ ] API error codes and the `{ data, meta? }` / `{ error }` envelope types (§8)
-- [ ] Test: every role in `ROLE_PERMISSIONS` references only defined permissions (§13)
+- [x] `packages/shared` package wired as `@freelancehub/shared` (§3)
+- [x] `constants/`: roles, user statuses, project statuses, categories, types, proposal statuses (§4, §6)
+- [x] `constants/project-status.ts`: the status transition map, including "system only" and per-actor transitions (§7)
+- [x] `rbac/`: `Permission` string-literal union, `ROLE_PERMISSIONS`, `hasPermission(role, permission)` (§4 RBAC)
+- [x] API error codes and the `{ data, meta? }` / `{ error }` envelope types (§8)
+- [x] Test: every role in `ROLE_PERMISSIONS` references only defined permissions (§13)
 
 ### 0.3 API track
 
-- [ ] `config/env.ts`: Zod-validated env that exits with a clear message if invalid. Also add `apps/api/.env.example` (§11, §12)
-- [ ] `config/db.ts`: Mongoose connect with `strictQuery` on (§11)
+- [x] `config/env.ts`: Zod-validated env that exits with a clear message if invalid. Also add `apps/server/.env.example` (§11, §12)
+- [x] `config/db.ts`: Mongoose connect with `strictQuery` on (§11)
 - [ ] `lib/`: pino logger, `AppError`, async handler (§3)
-- [ ] `middleware/`: `validate(schema)` and the central error handler that formats the envelope (§8)
-- [ ] `app.ts` (helmet, CORS limited to `CLIENT_ORIGIN` with credentials, cookie-parser) and `server.ts` (§3, §11)
-- [ ] `GET /api/health` → `{ data: { status: "ok", db: "up" } }`, plus a test using `MongoMemoryReplSet` (§8, §13)
+- [x] `middleware/`: `validate(schema)` and the central error handler that formats the envelope (§8)
+- [x] `app.ts` (helmet, CORS limited to `CLIENT_ORIGIN` with credentials, cookie-parser) and `server.ts` (§3, §11)
+- [x] `GET /api/health` → `{ data: { status: "ok", db: "up" } }`, plus a test using `MongoMemoryReplSet` (§8, §13)
 
 ### 0.4 Web track
 
-- [ ] Vite + React 19 + Tailwind v4 (`@tailwindcss/vite`) + shadcn init, with the Sidebar component added (§2)
-- [ ] `index.html` with `<meta name="robots" content="noindex, nofollow">` (§11)
-- [ ] Vite proxy `/api` → `http://localhost:4000`, and `apps/web/.env.example` (§9.2, §12)
-- [ ] `lib/api.ts` axios instance (`baseURL`, `withCredentials`) and `lib/query-client.ts` (§9.2)
-- [ ] `router/routes.tsx`: the full route tree from §9.1 with placeholder pages and no middleware yet
-- [ ] `DashboardLayout` built on shadcn Sidebar with a static nav: fixed and collapsible on `lg+`, a Sheet below `lg` (§9.1.1)
-- [ ] Dashboard index placeholder with a card that calls `/api/health`
+- [x] Vite + React 19 + Tailwind v4 (`@tailwindcss/vite`) + shadcn init, with the Sidebar component added (§2)
+- [x] `index.html` with `<meta name="robots" content="noindex, nofollow">` (§11)
+- [x] Vite proxy `/api` → `http://localhost:4000`, and `apps/client/.env.example` (§9.2, §12)
+- [x] `lib/api.ts` axios instance (`baseURL`, `withCredentials`) and `lib/query-client.ts` (§9.2)
+- [x] `router/routes.tsx`: the full route tree from §9.1 with placeholder pages and no middleware yet
+- [x] `DashboardLayout` built on shadcn Sidebar with a static nav: fixed and collapsible on `lg+`, a Sheet below `lg` (§9.1.1)
+- [x] Dashboard index placeholder with a card that calls `/api/health`
 
 ### Checkpoint
 
-- [ ] `pnpm dev` runs both apps, and `/dashboard` shows the responsive shell with a working health card.
+- [x] `pnpm dev` runs both apps, and `/dashboard` shows the responsive shell with a working health card.
 
 ---
 
@@ -151,7 +151,7 @@ Shared (gate)  ──►  API track  ─┐
 
 **Web track**
 
-- [ ] `pnpm add qrcode.react --filter web`
+- [ ] `pnpm add qrcode.react --filter client`
 - [ ] `features/auth/AuthPage.tsx` stepper inside `AuthLayout` (§5.1)
 - [ ] Step 1: "Open Telegram" button, a QR code of the deep link, and polling every 2s (`refetchInterval`) that moves to Step 2 on `otp_sent`
 - [ ] Step 2: OTP input, a resend button with a cooldown countdown, and error messages for locked or expired sessions
