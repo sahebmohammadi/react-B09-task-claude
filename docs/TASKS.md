@@ -79,7 +79,7 @@ Shared (gate)  ──►  API track  ─┐
 
 ### Shared (gate)
 
-- [ ] `schemas/user.ts`: user fields (name 2–60, email, role, status, title) and the public `User` response type (§6)
+- [x] `schemas/user.ts`: user fields (name 2–60, email, role, status, title) and the public `User` response type (§6)
 
 ### API track
 
